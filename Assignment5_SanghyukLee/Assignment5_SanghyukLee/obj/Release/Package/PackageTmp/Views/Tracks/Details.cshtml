@@ -1,0 +1,49 @@
+﻿@model Assignment5_SanghyukLee.Models.TrackWithDetailViewModel
+
+@{
+    ViewBag.Title = $"Details for track {Model.Name}";
+    var userAccount = new Assignment5_SanghyukLee.Controllers.RequestUser(User as System.Security.Claims.ClaimsPrincipal);
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            Track audio
+        </dt>
+
+        <dd>
+            <audio src="/audio/@Model.TrackId" controls="controls"></audio>
+            <hr />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Composers)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Composers)
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+
+    @if (userAccount.HasRoleClaim("Clerk"))
+    {
+        @Html.Raw("|\n");
+        @Html.ActionLink("Edit Track", "Edit", new { id = Model.TrackId })
+    }
+</p>
