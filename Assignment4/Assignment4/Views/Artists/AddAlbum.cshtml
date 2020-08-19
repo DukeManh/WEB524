@@ -1,0 +1,121 @@
+﻿@model Assignment4.Models.AlbumAddFormViewModel
+
+@{
+    ViewBag.Title = "AddAlbum";
+}
+
+    <h2>
+        Add Artist Album @Html.ActionLink(@Model.ArtistName, "Details", new { id = Model.ArtistId })
+    </h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Complete the form, and click the Create button</h4>
+        <hr />
+
+        @Html.Hidden("ArtistId", Model.ArtistId)
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReleaseDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UrlAlbum, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UrlAlbum, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UrlAlbum, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AlbumGenreList, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Genre", Model.AlbumGenreList, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="form-group col-md-4 col-md-offset-2 well">
+                <div class="row">
+                    @Html.LabelFor(model => model.ArtistList, htmlAttributes: new { @class = "control-label col-md-12 text-left" })
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        @foreach (var artist in Model.ArtistList)
+                        {
+                            <div class="checkbox">
+                                <label>
+                                        <input type="checkbox" name="ArtistIds" checked="@artist.Selected" value="@artist.Value" />
+                                    @artist.Text
+                                </label>
+                            </div>
+                        }
+                        @Html.ValidationMessageFor(model => model.ArtistList, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 col-md-offset-1 well">
+                <div class="row">
+
+                    @Html.LabelFor(model => model.TrackList, htmlAttributes: new { @class = "control-label col-md-12 text-left" })
+                </div>
+                <div class="row">
+
+
+                    <div class="col-md-10">
+                        @foreach (var track in Model.TrackList)
+                        {
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="TrackIds" checked="@track.Selected" value="@track.Value" />
+                                    @track.Text
+                                </label>
+                            </div>
+                        }
+                        @Html.ValidationMessageFor(model => model.TrackList, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
